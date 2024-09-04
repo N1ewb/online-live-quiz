@@ -1,6 +1,7 @@
 "use client";
 
-import { getAssessmentByID, toastMessage } from "@/firebase/firebase";
+import { getAssessmentByID, toastMessage } from "@/firebase/db";
+import { auth } from "@/firebase/firebase";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -26,6 +27,10 @@ const LandingPage = () => {
       }
     }
   };
+
+  if (auth.currentUser) {
+    router.push("/Dashboard");
+  }
 
   return (
     <div className="flex flex-col">

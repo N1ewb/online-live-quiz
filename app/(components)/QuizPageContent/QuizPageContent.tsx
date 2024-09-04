@@ -1,6 +1,7 @@
 import AssessmentQuestionCard from "@/app/(components)/AssessmentQuestionCard/AssessmentQuestionCard";
 import ConfirmID from "@/app/(components)/ConfirmIdentity/ConfirmID";
-import { getAssessmentQuestions } from "@/firebase/firebase";
+import { getAssessmentQuestions } from "@/firebase/db";
+
 import { AssessmentQuestion, GuestToken } from "@/lib/types";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";

@@ -1,7 +1,13 @@
+export interface User {
+  uid: string;
+  email: string;
+  password: string;
+}
+
 export interface Assessment {
   id: string;
   createdAt: Date | string;
-  assessmentType: "Quiz" | "Exam" | "Essay";
+  AssesmentType: "Quiz" | "Exam" | "Essay";
   assessmentTitle: string;
   status: "Not Started" | "In Progress" | "Completed";
   currentQuestionNumber: number;

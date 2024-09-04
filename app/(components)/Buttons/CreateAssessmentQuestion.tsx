@@ -1,4 +1,4 @@
-import { createAssessmentQuestions } from "@/firebase/firebase";
+import { createAssessmentQuestions } from "@/firebase/db";
 import React from "react";
 
 const CreateAssessmentQuestion = () => {

@@ -1,9 +1,19 @@
+"use client";
+import { auth } from "@/firebase/firebase";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Header = () => {
-  const auth = false;
+  const { currentUser } = auth;
+  const [isCurrentuser, setIsCurrentUser] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (currentUser) {
+      setIsCurrentUser(true);
+    } else {
+      setIsCurrentUser(false);
+    }
+  }, [currentUser]);
   return (
     <div className="w-full h-[80px] bg-white flex flex-row items-center justify-around text-black px-10">
       <div className="logo-container w-1/2 font-bold">
@@ -12,11 +22,13 @@ const Header = () => {
       <div className="nav-links flex flex-row justify-between w-1/2">
         <Link href="#">About</Link>
         <Link href="#">Contact Us</Link>
-        {!auth && (
+        {!isCurrentuser ? (
           <div className="flex flex-row justify-between gap-10">
             <Link href="/Login">Login</Link>
             <Link href="/SignUp">Sign up</Link>
           </div>
+        ) : (
+          <Link href="/Signout">Logout</Link>
         )}
       </div>
     </div>
