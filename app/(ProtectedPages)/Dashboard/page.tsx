@@ -1,6 +1,7 @@
 "use client";
 import AssessmentsCard from "@/app/(components)/Admin Components/AssessmentsCard";
 import CreateAssessmentModal from "@/app/(components)/Admin Components/CreateAssessmentModal";
+import CreateQuestionsModal from "@/app/(components)/Admin Components/CreateQuestionsModal";
 import {
   getAssessments,
   subscribeToAssessmentChanges,
@@ -17,9 +18,19 @@ const Dashboard = () => {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [showAssessmentModal, setShowAssessmentModal] =
     useState<boolean>(false);
+  const [showQuestionModal, setShowQuestionModal] = useState<boolean>(false);
+  const [currentAssessment, setCurrentAssessment] = useState<Assessment>();
+
+  const handleShowQuestionModal = () => {
+    setShowQuestionModal(!showQuestionModal);
+  };
 
   const handleShowAssessmentModal = () => {
     setShowAssessmentModal(!showAssessmentModal);
+  };
+
+  const handleSetCurrentAssessment = (assessment: Assessment) => {
+    setCurrentAssessment(assessment);
   };
 
   useEffect(() => {
@@ -82,11 +93,22 @@ const Dashboard = () => {
             handleSetShowAssessmentModal={handleShowAssessmentModal}
           />
         )}
+        {showQuestionModal && currentAssessment && (
+          <CreateQuestionsModal
+            assessment={currentAssessment}
+            handleShowQuestionModal={handleShowQuestionModal}
+          />
+        )}
       </div>
       <div className="assessments-list-container flex flex-row  flex-wrap gap-4">
         {assessments.length !== 0 &&
           assessments.map((assessment: Assessment) => (
-            <AssessmentsCard key={assessment.id} assessment={assessment} />
+            <AssessmentsCard
+              key={assessment.id}
+              assessment={assessment}
+              handleShowQuestionModal={handleShowQuestionModal}
+              handleSetCurrentAssessment={handleSetCurrentAssessment}
+            />
           ))}
       </div>
     </div>

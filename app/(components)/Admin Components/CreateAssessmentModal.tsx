@@ -18,7 +18,7 @@ const CreateAssessmentModal = ({
   };
 
   return (
-    <div className="absolute h-[60vh] w-[50%] -translate-x-[25%] flex flex-col gap-3 bg-[#323232] text-white p-20">
+    <div className="absolute h-[60vh] w-[50%] top-0 left-0flex flex-col gap-3 bg-[#323232] text-white p-20">
       <div className="flex flex-row w-full justify-between">
         <h1>Create Assessment</h1>
         <button onClick={handleSetShowAssessmentModal}>X</button>

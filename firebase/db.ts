@@ -1,18 +1,23 @@
 import { Assessment, AssessmentQuestion } from "@/lib/types";
-import { doc, getDoc, getDocs, Query } from "firebase/firestore/lite";
+
 import toast from "react-hot-toast";
-import { assessmentCollectionRef, db } from "./firebase";
+import { db } from "./firebase";
 import {
   addDoc,
   collection,
   DocumentData,
+  getDocs,
   onSnapshot,
   query,
   QuerySnapshot,
   serverTimestamp,
+  doc,
+  getDoc,
+  Query,
 } from "firebase/firestore";
 
 export const toastMessage = (message: string) => toast(message);
+const assessmentCollectionRef = collection(db, "Assessment");
 
 export async function createAssessment(
   assessmentTitle: string,
@@ -57,7 +62,7 @@ export async function getAssessments(): Promise<Assessment[] | undefined> {
     }
   } catch (error: Error | unknown) {
     if (error instanceof Error) {
-      toastMessage(`Error in: ${error.message}`);
+      toastMessage(`Error in fetching Assessments: ${error.message}`);
     } else {
       toastMessage("Unkown Error");
     }
@@ -86,11 +91,16 @@ export async function getAssessmentByID(id: string) {
   }
 }
 
-export async function createAssessmentQuestions() {
+export async function createAssessmentQuestions(
+  question: string,
+  answer: string,
+  choices: { label: string; text: string }[],
+  id: string
+) {
   try {
     const assessment = await getAssessments();
-    if (assessment) {
-      const assessmentRef = doc(db, "Assessment", assessment[0].id);
+    if (assessment && id) {
+      const assessmentRef = doc(db, "Assessment", id);
       const assessmentQuestionRef = collection(
         assessmentRef,
         "Assessment Questions"
@@ -98,14 +108,9 @@ export async function createAssessmentQuestions() {
 
       const assessmentQuestion = {
         questionNumber: 1,
-        question: "Does your mother know your gay?",
-        answer: "Yes",
-        choices: [
-          { letter: "a", choice: "Yes" },
-          { letter: "b", choice: "No" },
-          { letter: "c", choice: "Maybe" },
-          { letter: "a", choice: "Definitely" },
-        ],
+        question,
+        answer,
+        choices,
       };
 
       await addDoc(assessmentQuestionRef, assessmentQuestion);
